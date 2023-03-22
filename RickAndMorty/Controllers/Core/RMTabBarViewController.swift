@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Controller to house tabs and root tab controller
 final class RMTabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
@@ -14,7 +15,8 @@ final class RMTabBarViewController: UITabBarController {
         view.backgroundColor = .red
         setupTabs()
     }
-
+    
+    /// Setting tab bar and wrapping tabs in navigation controller
     private func setupTabs() {
         let characterVC = RMCharacterViewController()
         let locationVC = RMLocationViewController()
