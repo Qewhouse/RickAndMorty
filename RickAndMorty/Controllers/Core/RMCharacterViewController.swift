@@ -17,7 +17,7 @@ final class RMCharacterViewController: UIViewController {
         
         let request = RMRequest(
             endpoint: .character,
-        pathComponents: ["1"],
+            pathComponents: ["1"],
             queryParameters: [
                 URLQueryItem(name: "name", value: "rick"),
                 URLQueryItem(name: "status", value: "alive")
@@ -25,8 +25,9 @@ final class RMCharacterViewController: UIViewController {
             
         )
         print(request.url)
+
     }
     
     
-    
+     
 }
