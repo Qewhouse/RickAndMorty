@@ -15,6 +15,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     private let imageView: UIImageView = {
        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 10
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -22,6 +23,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
        let label = UILabel()
         label.textColor = .label
+        label.textAlignment = .center
         label.font = .systemFont(ofSize: 18,
                                  weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -31,6 +33,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     private let statusLabel: UILabel = {
        let label = UILabel()
         label.textColor = .secondaryLabel
+        label.textAlignment = .center
         label.font = .systemFont(ofSize: 16,
                                  weight: .regular  )
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +55,22 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-        
+            statusLabel.heightAnchor.constraint(equalToConstant: 30),
+            nameLabel .heightAnchor.constraint(equalToConstant: 30),
+            
+            statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            
+            statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
+            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -3),
+            
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant: -3),
+            
         ])
     }
     
@@ -65,7 +83,20 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: RMCharacterCollectionViewCellViewModel) {
-        
+        nameLabel.text = viewModel.characterName
+        statusLabel.text = viewModel.characterStatusText
+        viewModel.fetchImage { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    let image = UIImage(data: data)
+                    self? .imageView.image = image
+                }
+            case .failure(let error):
+                print(String(describing: error))
+                break
+            }
+        }
     }
 }
  
