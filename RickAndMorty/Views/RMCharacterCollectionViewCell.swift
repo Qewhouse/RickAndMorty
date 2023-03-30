@@ -48,10 +48,19 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubviews(imageView, nameLabel, statusLabel)
         setConstraints()
+        
+        setupLayer()
     }
     
     required init?(coder: NSCoder) {
         fatalError("Unsupported")
+    }
+    
+    private func setupLayer() {
+        contentView.layer.cornerRadius = 10
+        contentView.layer.shadowColor = UIColor.label.cgColor
+        contentView.layer.shadowOffset = CGSize(width: -4, height: 4)
+        contentView.layer.shadowOpacity = 0.3
     }
     
     private func setConstraints() {
@@ -59,13 +68,13 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
             statusLabel.heightAnchor.constraint(equalToConstant: 30),
             nameLabel .heightAnchor.constraint(equalToConstant: 30),
             
-            statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 7),
+            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -7),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 7),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -7),
             
             statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
-            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -3),
+            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor),
             
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -73,6 +82,14 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant: -3),
             
         ])
+    }
+    
+    /// Methods to be applied once mode changes from Dark to Light and back
+    /// - Parameter previousTraitCollection: previous mode
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        setupLayer()
+        
     }
     
     /// Methods for cell reuse (what should happen with cell once it will be prepared for reuse)
