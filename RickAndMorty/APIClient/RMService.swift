@@ -54,8 +54,6 @@ final class RMService {
         guard let url = rmRequest.url else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = rmRequest.httpMethod
-        
-        
         return request
     }
 }
